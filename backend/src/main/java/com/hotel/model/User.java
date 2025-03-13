@@ -1,5 +1,6 @@
 package com.hotel.model;
 
+import com.hotel.dto.UserDto;
 import com.hotel.enums.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -63,4 +64,14 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public UserDto getUserDto() {
+        UserDto dto = new UserDto();
+        dto.setId(id);
+        dto.setEmail(email);
+        dto.setName(name);
+        dto.setUserRole(userRole.name());
+        return dto;
+    }
+
 }
