@@ -7,6 +7,7 @@ import com.hotel.dto.UserDto;
 import com.hotel.model.User;
 import com.hotel.repository.UserRepository;
 import com.hotel.service.auth.AuthService;
+import com.hotel.service.jwt.UserService;
 import com.hotel.utils.JwtUtil;
 import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,8 @@ public class AuthController {
 
     private final JwtUtil jwtUtil;
 
+    private final UserService userService;
+
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody SignUpRequest signUpRequest) {
         try {
@@ -55,7 +58,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
 
-        final UserDetails userDetails = null;
+        final UserDetails userDetails = userService.getUserDetailsService().loadUserByUsername(authenticationRequest.getEmail());
         Optional<User> optionalUser = userRepository.findFirstByEmail(userDetails.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
 
