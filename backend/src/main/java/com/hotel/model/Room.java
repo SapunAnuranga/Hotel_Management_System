@@ -1,5 +1,6 @@
 package com.hotel.model;
 
+import com.hotel.dto.RoomDto;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,5 +21,16 @@ public class Room {
 
     @Column(columnDefinition = "TINYINT(1)")
     private boolean available;
+
+    public RoomDto getRoomDto(){
+        RoomDto roomDto = new RoomDto();
+        roomDto.setId(id);
+        roomDto.setName(name);
+        roomDto.setType(type);
+        roomDto.setPrice(price);
+        roomDto.setAvailable(available);
+        return roomDto;
+
+    }
 
 }

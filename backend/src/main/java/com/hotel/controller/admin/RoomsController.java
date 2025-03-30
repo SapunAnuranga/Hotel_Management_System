@@ -24,4 +24,9 @@ public class RoomsController {
         }
     }
 
+    @GetMapping("/rooms/{pageNumber}")
+    public ResponseEntity<?> getAllRooms(@PathVariable int pageNumber){
+        return ResponseEntity.ok(roomsService.getAllRooms(pageNumber));
+    }
+
 }
