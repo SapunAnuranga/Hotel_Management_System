@@ -4,12 +4,14 @@ import com.hotel.dto.RoomDto;
 import com.hotel.dto.RoomsResponseDto;
 import com.hotel.model.Room;
 import com.hotel.repository.RoomRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +50,16 @@ public class RoomsServiceImpl implements RoomsService {
         );
 
         return roomsResponseDto;
+    }
+
+    @Override
+    public RoomDto getRoomById(long roomId) {
+        Optional<Room> optionalRoom = roomRepository.findById(roomId);
+        if (optionalRoom.isPresent()) {
+            return optionalRoom.get().getRoomDto();
+        } else {
+            throw new EntityNotFoundException("Room not Present");
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.hotel.controller.admin;
 
 import com.hotel.dto.RoomDto;
 import com.hotel.service.admin.rooms.RoomsService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,17 @@ public class RoomsController {
     @GetMapping("/rooms/{pageNumber}")
     public ResponseEntity<?> getAllRooms(@PathVariable int pageNumber){
         return ResponseEntity.ok(roomsService.getAllRooms(pageNumber));
+    }
+
+    @GetMapping("/room/{id}")
+    public ResponseEntity<?> getRoomById(@PathVariable long id){
+        try {
+            return ResponseEntity.ok(roomsService.getRoomById(id));
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        }
     }
 
 }
