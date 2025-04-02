@@ -62,4 +62,19 @@ public class RoomsServiceImpl implements RoomsService {
         }
     }
 
+    public boolean updateRoom(Long id, RoomDto roomDto) {
+        Optional<Room> optionalRoom = roomRepository.findById(id);
+        if (optionalRoom.isPresent()) {
+            Room existingRoom = optionalRoom.get();
+
+            existingRoom.setName(roomDto.getName());
+            existingRoom.setPrice(roomDto.getPrice());
+            existingRoom.setType(roomDto.getType());
+
+            roomRepository.save(existingRoom);
+            return true;
+        }
+        return false;
+    }
+
 }
