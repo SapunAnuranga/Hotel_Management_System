@@ -52,4 +52,15 @@ public class RoomsController {
         }
     }
 
+    @DeleteMapping("/room/{id}")
+    public ResponseEntity<?> deleteRoom(@PathVariable long id){
+        try {
+            roomsService.deleteRoom(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
+    }
+
 }
